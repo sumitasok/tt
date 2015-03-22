@@ -84,6 +84,10 @@ func (tt *TimeTable) Minus(n int) *Date {
 	return &d
 }
 
+func (tt *TimeTable) Get() []time.Time {
+	return tt.list
+}
+
 func (tt *TimeTable) Starting() *Date {
 	tt.start = &Date{
 		timetable: tt,

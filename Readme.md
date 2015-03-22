@@ -13,12 +13,14 @@ import(
 ```
 
 ```
-t.ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0,0,14)).Select(t.WEEK, t.WEDNESDAY).Get()
+t.ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0,0,14)).
+	Select(t.WEEK, t.WEDNESDAY).Get()
 ```
 returns a list of time `[]time.Time`
 
 To find 30 days prior to every wednesday in a time span.
 
 ```
-t.ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0,0,14)).Select(t.WEEK, t.WEDNESDAY).Minus(30).Days().Get()
+t.ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0,0,14)).
+	Select(t.WEEK, t.WEDNESDAY).Minus(30).Days().Get()
 ```

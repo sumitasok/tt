@@ -1,6 +1,7 @@
 package timetable
 
 import (
+	c "github.com/sumitasok/timetable/computation"
 	"time"
 )
 
@@ -10,6 +11,7 @@ const (
 	EVERY = "EVERY"
 
 	MINUS = "MINUS"
+	NEXT  = "NEXT"
 )
 
 type Date struct {
@@ -31,6 +33,36 @@ func (d *Date) Today() *TimeTable {
 func (d *Date) Tomorrow() *TimeTable {
 	d.time = time.Now().AddDate(0, 0, 1)
 	return d.timetable
+}
+
+func (d *Date) Next() *Date {
+	d.kind = NEXT
+	return d
+}
+
+func (d *Date) Week() *TimeTable {
+	t := d.timetable
+	start := t.start.time
+	end := t.end.time
+	timeChk := start
+
+	switch d.kind {
+	case NEXT:
+		if len(t.list) == 0 {
+			list := c.Weekly(int(start.Weekday()), start, end)
+			d.timetable.list = list
+			return t
+		} else {
+			var list []time.Time
+			for i := range t.list {
+				timeChk = t.list[i].AddDate(0, 0, 7)
+				list = append(list, timeChk)
+				t.list = list
+			}
+			return t
+		}
+	}
+	return t
 }
 
 func (d *Date) Days() *TimeTable {

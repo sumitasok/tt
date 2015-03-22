@@ -74,6 +74,15 @@ func (tt *TimeTable) Select(collection string, item int) *TimeTable {
 	return tt
 }
 
+func (tt *TimeTable) Every() *Date {
+	d := Date{
+		kind:      EVERY,
+		timetable: tt,
+	}
+	tt.computation = append(tt.computation, &d)
+	return &d
+}
+
 func (tt *TimeTable) Minus(n int) *Date {
 	d := Date{
 		kind:      MINUS,

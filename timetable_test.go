@@ -41,6 +41,10 @@ func TestSelect(t *testing.T) {
 		tt = ListOf(7).StartingFrom(time.Now().AddDate(0, 0, 2)).EndingOn(time.Now().AddDate(0, 0, 16)).Select(WEEK, WEDNESDAY)
 		assert.Equal(2, len(tt.list))
 		assert.Equal("Wednesday", tt.list[1].Weekday().String())
+
+		tt = ListOf(7).StartingFrom(time.Now().AddDate(0, 0, 0)).EndingOn(time.Now().AddDate(0, 0, 14)).Select(WEEK, int(Today().Weekday()))
+		assert.Equal(3, len(tt.list))
+		assert.Equal("Sunday", tt.list[1].Weekday().String())
 	}
 
 	tt := ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0, 0, 16)).Select(WEEK, int(time.Now().Weekday())+1)
@@ -78,6 +82,22 @@ func TestGet(t *testing.T) {
 	layout := "Mon Jan 2 15:04:05 -0700 MST 2006"
 	for i, f := range fridays {
 		assert.Equal(f.AddDate(0, 0, -60).Format(layout), minus30Days.list[i].Format(layout))
+	}
+
+	assert.True(true)
+}
+
+func TestGetNextWeekSameDay(t *testing.T) {
+	assert := assert.New(t)
+
+	nextWeekSameDay := ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0, 0, 28)).
+		Every().Next().Week()
+	fridays := ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0, 0, 28)).
+		Select(WEEK, SUNDAY).Get()
+
+	layout := "Mon Jan 2 15:04:05 -0700 MST 2006"
+	for i, f := range fridays {
+		assert.Equal(f.Format(layout), nextWeekSameDay.list[i].Format(layout))
 	}
 
 	assert.True(true)

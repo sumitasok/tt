@@ -70,8 +70,10 @@ func TestMinusDays(t *testing.T) {
 func TestGet(t *testing.T) {
 	assert := assert.New(t)
 
-	minus30Days := ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0, 0, 28)).Select(WEEK, FRIDAY).Minus(60).Days()
-	fridays := ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0, 0, 28)).Select(WEEK, FRIDAY).Get()
+	minus30Days := ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0, 0, 28)).
+		Select(WEEK, FRIDAY).Minus(60).Days()
+	fridays := ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0, 0, 28)).
+		Select(WEEK, FRIDAY).Get()
 
 	layout := "Mon Jan 2 15:04:05 -0700 MST 2006"
 	for i, f := range fridays {

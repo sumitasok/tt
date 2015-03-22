@@ -24,10 +24,11 @@ const (
 )
 
 type TimeTable struct {
-	count int         // maximum number of datetime to be returned
-	start *Date       // time table to start looking from
-	end   *Date       // time table to stop looking at
-	list  []time.Time // the final output list
+	count       int         // maximum number of datetime to be returned
+	start       *Date       // time table to start looking from
+	end         *Date       // time table to stop looking at
+	list        []time.Time // the final output list
+	computation []*Date
 }
 
 func ListOf(count int) *TimeTable {
@@ -71,6 +72,16 @@ func (tt *TimeTable) Select(collection string, item int) *TimeTable {
 		panic(ErrWhileComputation)
 	}
 	return tt
+}
+
+func (tt *TimeTable) Minus(n int) *Date {
+	d := Date{
+		kind:      MINUS,
+		n:         n,
+		timetable: tt,
+	}
+	tt.computation = append(tt.computation, &d)
+	return &d
 }
 
 func (tt *TimeTable) Starting() *Date {

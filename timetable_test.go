@@ -27,6 +27,8 @@ func TestStartingFrom(t *testing.T) {
 	assert.Equal(time.Now().AddDate(0, 0, 2).Day(), tt.start.time.Day())
 }
 
+// starting today till next week get every wednesday
+// starting today till 14 days get every friday
 func TestSelect(t *testing.T) {
 	assert := assert.New(t)
 
@@ -44,6 +46,24 @@ func TestSelect(t *testing.T) {
 	tt := ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0, 0, 16)).Select(WEEK, int(time.Now().Weekday())+1)
 	assert.Equal(3, len(tt.list))
 	assert.Equal(time.Now().AddDate(0, 0, 1).Weekday().String(), tt.list[1].Weekday().String())
+
+	assert.True(true)
+}
+
+// starting today till Jan 20, 1985 get every week friday minus 30 days
+// Starting().Today().EndingOn(7 days from now).every("week friday").minus("30 days")
+
+func TestMinusDays(t *testing.T) {
+	assert := assert.New(t)
+
+	minus30Days := ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0, 0, 28)).Select(WEEK, FRIDAY).Minus(60).Days()
+	fridays := ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0, 0, 28)).Select(WEEK, FRIDAY).list
+
+	layout := "Mon Jan 2 15:04:05 -0700 MST 2006"
+	for i, f := range fridays {
+		assert.Equal(f.AddDate(0, 0, -60).Format(layout), minus30Days.list[i].Format(layout))
+		println(f.AddDate(0, 0, -60).Format(layout), minus30Days.list[i].Format(layout))
+	}
 
 	assert.True(true)
 }

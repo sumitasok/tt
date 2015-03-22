@@ -36,3 +36,11 @@ func TestStartTomorrow(t *testing.T) {
 }
 
 // ListOf(22).Starting().Today().Ending().Next().Month().Every().Monday()
+
+func ExampleDate_Today() {
+	ListOf(22).Starting().Today()
+}
+
+func ExampleDate_Tomorrow() {
+	ListOf(22).Starting().Tomorrow()
+}

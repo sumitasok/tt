@@ -3,7 +3,7 @@ A Package that makes playing with date easy.
 #### How to use
 ```
 import(
-	t "github.com/sumitasok/timetable"
+	"github.com/sumitasok/timetable"
 )
 ```
 

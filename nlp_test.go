@@ -70,6 +70,25 @@ func TestIdentifier(t *testing.T) {
 	assert.True(true)
 }
 
+func TestGetByQuery(t *testing.T) {
+	assert := assert.New(t)
+
+	tt := Get("starting today")
+	assert.Equal(time.Now().Day(), tt.start.time.Day())
+
+	assert.True(true)
+}
+
+func TestStarting(t *testing.T) {
+	assert := assert.New(t)
+
+	tt := &TimeTable{}
+	tt = starting("starting today", tt)
+	assert.Equal(time.Now().Day(), tt.start.time.Day())
+
+	assert.True(true)
+}
+
 func TestParseTime(t *testing.T) {
 	assert := assert.New(t)
 

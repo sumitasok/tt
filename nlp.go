@@ -48,6 +48,11 @@ func parseTime(query string) (string, int) {
 		return "days_from_today", -1
 	}
 
+	re = regexp.MustCompile("(next week)")
+	if re.Match([]byte(query)) {
+		return "days_from_today", 7
+	}
+
 	return "", 0
 }
 

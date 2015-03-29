@@ -106,5 +106,10 @@ func TestMakeTime(t *testing.T) {
 	assert.Equal(ti.Month(), time.Now().AddDate(0, 0, -1).Month())
 	assert.Equal(ti.Day(), time.Now().AddDate(0, 0, -1).Day())
 
+	ti = makeTime("starting next week")
+	assert.Equal(ti.Year(), time.Now().AddDate(0, 0, 7).Year())
+	assert.Equal(ti.Month(), time.Now().AddDate(0, 0, 7).Month())
+	assert.Equal(ti.Day(), time.Now().AddDate(0, 0, 7).Day())
+
 	assert.True(true)
 }

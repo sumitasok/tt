@@ -87,3 +87,14 @@ func TestParseTime(t *testing.T) {
 
 	assert.True(true)
 }
+
+func TestMakeTime(t *testing.T) {
+	assert := assert.New(t)
+
+	ti := makeTime("starting today")
+	assert.Equal(ti.Year(), time.Now().Year())
+	assert.Equal(ti.Month(), time.Now().Month())
+	assert.Equal(ti.Day(), time.Now().Day())
+
+	assert.True(true)
+}

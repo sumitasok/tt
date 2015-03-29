@@ -24,8 +24,11 @@ func starting(query string, tt *TimeTable) *TimeTable {
 }
 
 func makeTime(query string) time.Time {
-	// re := regexp.MustCompile("(today)")
-	// s := re.FindString(query)
+	id, offset := parseTime(query)
+	switch id {
+	case "days_fromToday":
+		return time.Now().AddDate(0, 0, offset)
+	}
 	return time.Now()
 }
 

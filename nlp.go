@@ -65,27 +65,15 @@ func makeTime(query string) time.Time {
 }
 
 func parseTime(query string) (string, int) {
-	re := regexp.MustCompile("(today)")
-	if re.Match([]byte(query)) {
-		return "days_from_today", 0
+	days := []string{"today", "tomorrow", "yesterday", "next week"}
+	for _, item := range days {
+		re := regexp.MustCompile("(" + item + ")")
+		if re.Match([]byte(query)) {
+			return "days_from_today", daysFromTodayConstants(item)
+		}
 	}
 
-	re = regexp.MustCompile("(tomorrow)")
-	if re.Match([]byte(query)) {
-		return "days_from_today", 1
-	}
-
-	re = regexp.MustCompile("(yesterday)")
-	if re.Match([]byte(query)) {
-		return "days_from_today", -1
-	}
-
-	re = regexp.MustCompile("(next week)")
-	if re.Match([]byte(query)) {
-		return "days_from_today", 7
-	}
-
-	re = regexp.MustCompile("(days from now)")
+	re := regexp.MustCompile("(days from now)")
 	if re.Match([]byte(query)) {
 		re1 := regexp.MustCompile("[0-9]+")
 		if re1.Match([]byte(query)) {
@@ -96,6 +84,16 @@ func parseTime(query string) (string, int) {
 	}
 
 	return "", 0
+}
+
+func daysFromTodayConstants(str string) int {
+	daysFromToday := map[string]int{
+		"today":     0,
+		"tomorrow":  1,
+		"yesterday": -1,
+		"next week": 7,
+	}
+	return daysFromToday[str]
 }
 
 func stringToInt(str string) int {

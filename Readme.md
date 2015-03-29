@@ -26,3 +26,5 @@ t.ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0,0,14)).
 ```
 
 TO-DO: make sure start, till and every is defined before query executes
+starting 14 days from now, till 3 weeks from `then|that`, every wednesday
+starting 14 days from now, till 3 weeks from `then|that`, 30 days before every wednesday

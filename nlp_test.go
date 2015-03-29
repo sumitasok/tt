@@ -92,6 +92,9 @@ func TestIdentifier(t *testing.T) {
 	str = "    every day"
 	assert.Equal("every", identifier(str))
 
+	str = "30 days before every wednesday"
+	assert.Equal("every", identifier(str))
+
 	assert.True(true)
 }
 

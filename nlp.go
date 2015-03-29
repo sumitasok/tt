@@ -115,6 +115,10 @@ func identifier(str string) string {
 	case "every":
 		return "every"
 	default:
+		re := regexp.MustCompile("(every)")
+		if re.Match([]byte(str)) {
+			return "every"
+		}
 		return ""
 	}
 }

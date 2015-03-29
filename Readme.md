@@ -26,8 +26,6 @@ starting 21 days before today, till 4 weeks from now, every tuesday
 
 #### Usage Old School
 
-Starting().Today().EndingOn(7 days from now).every("week friday").minus("30 days")
-
 If you want to find all Wednesdays between today and 14 days from then, use
 
 ```
@@ -51,4 +49,4 @@ t.ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0,0,14)).
 
 TO-DO: make sure start, till and every is defined before query executes
 starting 14 days from now, till 3 weeks from `then|that`, every wednesday
-starting 14 days from now, till 3 weeks from `then|that`, 30 days before every wednesday
+Starting().Today().EndingOn(7 days from now).every("week friday").minus("30 days")

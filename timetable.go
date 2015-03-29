@@ -93,6 +93,16 @@ func (tt *TimeTable) Minus(n int) *Date {
 	return &d
 }
 
+func (tt *TimeTable) Plus(n int) *Date {
+	d := Date{
+		kind:      PLUS,
+		n:         n,
+		timetable: tt,
+	}
+	tt.computation = append(tt.computation, &d)
+	return &d
+}
+
 func (tt *TimeTable) Get() []time.Time {
 	return tt.list
 }

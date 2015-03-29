@@ -12,6 +12,7 @@ const (
 
 	MINUS = "MINUS"
 	NEXT  = "NEXT"
+	PLUS  = "PLUS"
 )
 
 type Date struct {
@@ -71,6 +72,12 @@ func (d *Date) Days() *TimeTable {
 		var list []time.Time
 		for i := range d.timetable.list {
 			list = append(list, d.timetable.list[i].AddDate(0, 0, -(d.n)))
+		}
+		d.timetable.list = list
+	case PLUS:
+		var list []time.Time
+		for i := range d.timetable.list {
+			list = append(list, d.timetable.list[i].AddDate(0, 0, (d.n)))
 		}
 		d.timetable.list = list
 	}

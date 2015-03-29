@@ -40,6 +40,11 @@ func parseTime(query string) (string, int) {
 		return "days_from_today", 1
 	}
 
+	re = regexp.MustCompile("(yesterday)")
+	if re.Match([]byte(query)) {
+		return "days_from_today", -1
+	}
+
 	return "", 0
 }
 

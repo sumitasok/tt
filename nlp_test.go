@@ -81,5 +81,9 @@ func TestParseTime(t *testing.T) {
 	assert.Equal("days_from_today", id)
 	assert.Equal(1, offset)
 
+	id, offset = parseTime("till yesterday")
+	assert.Equal("days_from_today", id)
+	assert.Equal(-1, offset)
+
 	assert.True(true)
 }

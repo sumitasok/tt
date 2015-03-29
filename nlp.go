@@ -47,7 +47,15 @@ func every(query string, tt *TimeTable) *TimeTable {
 	for weekName, item := range weekPointer {
 		re := regexp.MustCompile("(" + weekName + ")")
 		if re.Match([]byte(query)) {
-			tt.Select(WEEK, item)
+			date := tt.Select(WEEK, item)
+
+			re = regexp.MustCompile("(days before)")
+			if re.Match([]byte(query)) {
+				id, number := parseTime(query)
+				if id == "days_before_today" {
+					date.Minus(number).Days()
+				}
+			}
 		}
 	}
 
@@ -97,7 +105,7 @@ func parseTime(query string) (string, int) {
 		re1 := regexp.MustCompile("[0-9]+")
 		if re1.Match([]byte(query)) {
 			number := re1.FindString(query)
-			return "days_from_today", -(stringToInt(number))
+			return "days_before_today", stringToInt(number)
 		}
 		return "", 0
 	}

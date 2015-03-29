@@ -56,6 +56,14 @@ func every(query string, tt *TimeTable) *TimeTable {
 					date.Minus(number).Days()
 				}
 			}
+
+			re = regexp.MustCompile("(days after)")
+			if re.Match([]byte(query)) {
+				id, number := parseTime(query)
+				if id == "days_from_today" {
+					date.Plus(number).Days()
+				}
+			}
 		}
 	}
 
@@ -106,6 +114,16 @@ func parseTime(query string) (string, int) {
 		if re1.Match([]byte(query)) {
 			number := re1.FindString(query)
 			return "days_before_today", stringToInt(number)
+		}
+		return "", 0
+	}
+
+	re = regexp.MustCompile("(days after)")
+	if re.Match([]byte(query)) {
+		re1 := regexp.MustCompile("[0-9]+")
+		if re1.Match([]byte(query)) {
+			number := re1.FindString(query)
+			return "days_from_today", stringToInt(number)
 		}
 		return "", 0
 	}

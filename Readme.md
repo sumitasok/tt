@@ -20,6 +20,9 @@ starting yesterday, till 4 weeks from now, 14 days before every wednesday
 starting 2 weeks from now, till 4 weeks from now, 21 days after every monday
 starting 21 days before now, till 4 weeks from now, every tuesday
 starting 21 days before today, till 4 weeks from now, every tuesday
+starting 2 months before now, till today , every sunday
+starting 2 months after now, till 3 months from now, every sunday
+starting 2 months after now, till 3 months from now, every sunday 3 months after
 ```
 
 

@@ -26,10 +26,10 @@ func starting(query string, tt *TimeTable) *TimeTable {
 func makeTime(query string) time.Time {
 	id, offset := parseTime(query)
 	switch id {
-	case "days_fromToday":
+	case "days_from_today":
 		return time.Now().AddDate(0, 0, offset)
 	}
-	return time.Now()
+	return time.Time{}
 }
 
 func parseTime(query string) (string, int) {

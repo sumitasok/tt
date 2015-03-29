@@ -33,9 +33,9 @@ func TestNlp(t *testing.T) {
 
 	query := "starting today, till 16 days from now, every " + weekDayList[(int(time.Now().Weekday())+1)]
 	println(query)
-	// timeTable := Get(query)
-	// assert.Equal(3, len(timeTable.list))
-	// assert.Equal(time.Now().AddDate(0, 0, 1).Weekday().String(), timeTable.list[1].Weekday().String())
+	timeTable := Get(query)
+	assert.Equal(3, len(timeTable.list))
+	assert.Equal(time.Now().AddDate(0, 0, 1).Weekday().String(), timeTable.list[1].Weekday().String())
 
 	assert.True(true)
 }
@@ -76,6 +76,9 @@ func TestGetByQuery(t *testing.T) {
 	tt := Get("starting today")
 	assert.Equal(time.Now().Day(), tt.start.time.Day())
 
+	tt = Get("till tomorrow")
+	assert.Equal(time.Now().AddDate(0, 0, 1).Day(), tt.end.time.Day())
+
 	assert.True(true)
 }
 
@@ -85,6 +88,16 @@ func TestStarting(t *testing.T) {
 	tt := &TimeTable{}
 	tt = starting("starting today", tt)
 	assert.Equal(time.Now().Day(), tt.start.time.Day())
+
+	assert.True(true)
+}
+
+func TestTill(t *testing.T) {
+	assert := assert.New(t)
+
+	tt := &TimeTable{}
+	tt = till("till next week", tt)
+	assert.Equal(time.Now().AddDate(0, 0, 7).Day(), tt.end.time.Day())
 
 	assert.True(true)
 }
@@ -107,6 +120,18 @@ func TestParseTime(t *testing.T) {
 	id, offset = parseTime("till next week")
 	assert.Equal("days_from_today", id)
 	assert.Equal(7, offset)
+
+	id, offset = parseTime("123 days from now")
+	assert.Equal("days_from_today", id)
+	assert.Equal(123, offset)
+
+	assert.True(true)
+}
+
+func TestStringToInt(t *testing.T) {
+	assert := assert.New(t)
+
+	assert.Equal(123, stringToInt("123"))
 
 	assert.True(true)
 }

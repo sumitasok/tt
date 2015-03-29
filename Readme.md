@@ -24,3 +24,5 @@ To find 30 days prior to every wednesday in a time span.
 t.ListOf(7).Starting().Today().EndingOn(time.Now().AddDate(0,0,14)).
 	Select(t.WEEK, t.WEDNESDAY).Minus(30).Days().Get()
 ```
+
+TO-DO: make sure start, till and every is defined before query executes

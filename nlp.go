@@ -75,6 +75,8 @@ func makeTime(query string) time.Time {
 	switch id {
 	case "days_from_today":
 		return time.Now().AddDate(0, 0, offset)
+	case "days_before_today":
+		return time.Now().AddDate(0, 0, -offset)
 	}
 	return time.Time{}
 }
@@ -98,6 +100,26 @@ func parseTime(query string) (string, int) {
 		return "", 0
 	}
 
+	re = regexp.MustCompile("(days before today)")
+	if re.Match([]byte(query)) {
+		re1 := regexp.MustCompile("[0-9]+")
+		if re1.Match([]byte(query)) {
+			number := re1.FindString(query)
+			return "days_before_today", stringToInt(number)
+		}
+		return "", 0
+	}
+
+	re = regexp.MustCompile("(days before now)")
+	if re.Match([]byte(query)) {
+		re1 := regexp.MustCompile("[0-9]+")
+		if re1.Match([]byte(query)) {
+			number := re1.FindString(query)
+			return "days_before_today", stringToInt(number)
+		}
+		return "", 0
+	}
+
 	re = regexp.MustCompile("(weeks from now)")
 	if re.Match([]byte(query)) {
 		re1 := regexp.MustCompile("[0-9]+")
@@ -108,6 +130,7 @@ func parseTime(query string) (string, int) {
 		return "", 0
 	}
 
+	// has to be towards the last, as this is for `every` identifier
 	re = regexp.MustCompile("(days before)")
 	if re.Match([]byte(query)) {
 		re1 := regexp.MustCompile("[0-9]+")

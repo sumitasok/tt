@@ -94,6 +94,20 @@ func TestNlp(t *testing.T) {
 	assert.Equal(time.Now().AddDate(0, 0, 36-21+1).Format(layout), timeTable.list[5].Format(layout))
 	assert.Equal(time.Now().AddDate(0, 0, 43-21+1).Format(layout), timeTable.list[6].Format(layout))
 
+	query = "starting 21 days before today, till 4 weeks from now, every " + weekDayList[(int(time.Now().Weekday())+2)]
+	println(query)
+	timeTable = Get(query)
+	assert.Equal(7, len(timeTable.list))
+	printList(timeTable.list)
+	assert.Equal(time.Now().AddDate(0, 0, 2).Weekday().String(), timeTable.list[1].Weekday().String())
+	assert.Equal(time.Now().AddDate(0, 0, 1-21+1).Format(layout), timeTable.list[0].Format(layout))
+	assert.Equal(time.Now().AddDate(0, 0, 8-21+1).Format(layout), timeTable.list[1].Format(layout))
+	assert.Equal(time.Now().AddDate(0, 0, 15-21+1).Format(layout), timeTable.list[2].Format(layout))
+	assert.Equal(time.Now().AddDate(0, 0, 22-21+1).Format(layout), timeTable.list[3].Format(layout))
+	assert.Equal(time.Now().AddDate(0, 0, 29-21+1).Format(layout), timeTable.list[4].Format(layout))
+	assert.Equal(time.Now().AddDate(0, 0, 36-21+1).Format(layout), timeTable.list[5].Format(layout))
+	assert.Equal(time.Now().AddDate(0, 0, 43-21+1).Format(layout), timeTable.list[6].Format(layout))
+
 	assert.True(true)
 }
 
@@ -190,6 +204,14 @@ func TestParseTime(t *testing.T) {
 	assert.Equal(21, offset)
 
 	id, offset = parseTime("30 days before")
+	assert.Equal("days_before_today", id)
+	assert.Equal(30, offset)
+
+	id, offset = parseTime("30 days before now")
+	assert.Equal("days_before_today", id)
+	assert.Equal(30, offset)
+
+	id, offset = parseTime("30 days before today")
 	assert.Equal("days_before_today", id)
 	assert.Equal(30, offset)
 

@@ -82,14 +82,6 @@ func makeTime(query string) time.Time {
 }
 
 func parseTime(query string) (string, int) {
-	days := []string{"today", "tomorrow", "yesterday", "next week"}
-	for _, item := range days {
-		re := regexp.MustCompile("(" + item + ")")
-		if re.Match([]byte(query)) {
-			return "days_from_today", daysFromTodayConstants(item)
-		}
-	}
-
 	re := regexp.MustCompile("(days from now)")
 	if re.Match([]byte(query)) {
 		re1 := regexp.MustCompile("[0-9]+")
@@ -128,6 +120,15 @@ func parseTime(query string) (string, int) {
 			return "days_from_today", stringToInt(number) * 7
 		}
 		return "", 0
+	}
+
+	// Keep this matching here to avoid this becoming a wild card and escaping earlier matches
+	days := []string{"today", "tomorrow", "yesterday", "next week"}
+	for _, item := range days {
+		re := regexp.MustCompile("(" + item + ")")
+		if re.Match([]byte(query)) {
+			return "days_from_today", daysFromTodayConstants(item)
+		}
 	}
 
 	// has to be towards the last, as this is for `every` identifier

@@ -108,6 +108,24 @@ func TestNlp(t *testing.T) {
 	assert.Equal(time.Now().AddDate(0, 0, 36-21+1).Format(layout), timeTable.list[5].Format(layout))
 	assert.Equal(time.Now().AddDate(0, 0, 43-21+1).Format(layout), timeTable.list[6].Format(layout))
 
+	query = "starting 2 months before now, till today , every " + weekDayList[(int(time.Now().Weekday()))]
+	println(query)
+	timeTable = Get(query)
+	printList(timeTable.list)
+	println("working, write tests")
+
+	query = "starting 2 months after now, till 3 months from now, every " + weekDayList[(int(time.Now().Weekday()))]
+	println(query)
+	timeTable = Get(query)
+	printList(timeTable.list)
+	println("working, write tests")
+
+	query = "starting 2 months after now, till 3 months from now, every " + weekDayList[(int(time.Now().Weekday()))] + " 3 months after"
+	println(query)
+	timeTable = Get(query)
+	printList(timeTable.list)
+	println("working, write tests")
+
 	assert.True(true)
 }
 

@@ -64,6 +64,23 @@ func every(query string, tt *TimeTable) *TimeTable {
 					date.Plus(number).Days()
 				}
 			}
+
+			re = regexp.MustCompile("(months before)")
+			if re.Match([]byte(query)) {
+				id, number := parseTime(query)
+				if id == "months_before_today" {
+					date.Minus(number).Months()
+				}
+			}
+
+			re = regexp.MustCompile("(months after)")
+			if re.Match([]byte(query)) {
+				id, number := parseTime(query)
+				if id == "months_from_today" {
+					date.Plus(number).Months()
+				}
+			}
+
 		}
 	}
 
@@ -77,6 +94,10 @@ func makeTime(query string) time.Time {
 		return time.Now().AddDate(0, 0, offset)
 	case "days_before_today":
 		return time.Now().AddDate(0, 0, -offset)
+	case "months_from_today":
+		return time.Now().AddDate(0, offset, 0)
+	case "months_before_today":
+		return time.Now().AddDate(0, -offset, 0)
 	}
 	return time.Time{}
 }
@@ -92,12 +113,32 @@ func parseTime(query string) (string, int) {
 		return "", 0
 	}
 
+	re = regexp.MustCompile("(months from now)")
+	if re.Match([]byte(query)) {
+		re1 := regexp.MustCompile("[0-9]+")
+		if re1.Match([]byte(query)) {
+			number := re1.FindString(query)
+			return "months_from_today", stringToInt(number)
+		}
+		return "", 0
+	}
+
 	re = regexp.MustCompile("(days before today)")
 	if re.Match([]byte(query)) {
 		re1 := regexp.MustCompile("[0-9]+")
 		if re1.Match([]byte(query)) {
 			number := re1.FindString(query)
 			return "days_before_today", stringToInt(number)
+		}
+		return "", 0
+	}
+
+	re = regexp.MustCompile("(months before today)")
+	if re.Match([]byte(query)) {
+		re1 := regexp.MustCompile("[0-9]+")
+		if re1.Match([]byte(query)) {
+			number := re1.FindString(query)
+			return "months_before_today", stringToInt(number)
 		}
 		return "", 0
 	}
@@ -152,6 +193,25 @@ func parseTime(query string) (string, int) {
 		return "", 0
 	}
 
+	re = regexp.MustCompile("(months before)")
+	if re.Match([]byte(query)) {
+		re1 := regexp.MustCompile("[0-9]+")
+		if re1.Match([]byte(query)) {
+			number := re1.FindString(query)
+			return "months_before_today", stringToInt(number)
+		}
+		return "", 0
+	}
+
+	re = regexp.MustCompile("(months after)")
+	if re.Match([]byte(query)) {
+		re1 := regexp.MustCompile("[0-9]+")
+		if re1.Match([]byte(query)) {
+			number := re1.FindString(query)
+			return "months_from_today", stringToInt(number)
+		}
+		return "", 0
+	}
 	return "", 0
 }
 

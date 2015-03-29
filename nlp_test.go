@@ -11,6 +11,9 @@ starting today, till 7 days from now, every wednesday
 starting 7 days from now, till next month, every wed
 starting today, till next week, every alternate day
 */
+var (
+	layout = "Jan 2, 2006 (MST)"
+)
 
 func TestNlp(t *testing.T) {
 	assert := assert.New(t)
@@ -36,6 +39,19 @@ func TestNlp(t *testing.T) {
 	timeTable := Get(query)
 	assert.Equal(3, len(timeTable.list))
 	assert.Equal(time.Now().AddDate(0, 0, 1).Weekday().String(), timeTable.list[1].Weekday().String())
+	printList(timeTable.list)
+	assert.Equal(time.Now().AddDate(0, 0, 1).Format(layout), timeTable.list[0].Format(layout))
+	assert.Equal(time.Now().AddDate(0, 0, 8).Format(layout), timeTable.list[1].Format(layout))
+	assert.Equal(time.Now().AddDate(0, 0, 15).Format(layout), timeTable.list[2].Format(layout))
+
+	query = "starting today, till 2 weeks from now, every " + weekDayList[(int(time.Now().Weekday())+2)]
+	println(query)
+	timeTable = Get(query)
+	assert.Equal(2, len(timeTable.list))
+	printList(timeTable.list)
+	assert.Equal(time.Now().AddDate(0, 0, 2).Weekday().String(), timeTable.list[1].Weekday().String())
+	assert.Equal(time.Now().AddDate(0, 0, 1+1).Format(layout), timeTable.list[0].Format(layout))
+	assert.Equal(time.Now().AddDate(0, 0, 8+1).Format(layout), timeTable.list[1].Format(layout))
 
 	assert.True(true)
 }
@@ -125,6 +141,10 @@ func TestParseTime(t *testing.T) {
 	assert.Equal("days_from_today", id)
 	assert.Equal(123, offset)
 
+	id, offset = parseTime("3 weeks from now")
+	assert.Equal("days_from_today", id)
+	assert.Equal(21, offset)
+
 	assert.True(true)
 }
 
@@ -160,4 +180,10 @@ func TestMakeTime(t *testing.T) {
 	assert.Equal(ti.Day(), time.Now().AddDate(0, 0, 7).Day())
 
 	assert.True(true)
+}
+
+func printList(timeList []time.Time) {
+	for i := range timeList {
+		println(timeList[i].Format(layout))
+	}
 }

@@ -2,8 +2,6 @@ package timetable
 
 import (
 	"regexp"
-	"strconv"
-	"strings"
 	"time"
 )
 
@@ -83,6 +81,16 @@ func parseTime(query string) (string, int) {
 		return "", 0
 	}
 
+	re = regexp.MustCompile("(weeks from now)")
+	if re.Match([]byte(query)) {
+		re1 := regexp.MustCompile("[0-9]+")
+		if re1.Match([]byte(query)) {
+			number := re1.FindString(query)
+			return "days_from_today", stringToInt(number) * 7
+		}
+		return "", 0
+	}
+
 	return "", 0
 }
 
@@ -94,18 +102,6 @@ func daysFromTodayConstants(str string) int {
 		"next week": 7,
 	}
 	return daysFromToday[str]
-}
-
-func stringToInt(str string) int {
-	if i, err := strconv.ParseInt(str, 0, 64); err == nil {
-		return int(i)
-	} else {
-		return 0
-	}
-}
-
-func splitByComma(str string) []string {
-	return strings.Split(str, ",")
 }
 
 func identifier(str string) string {

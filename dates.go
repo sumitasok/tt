@@ -83,3 +83,21 @@ func (d *Date) Days() *TimeTable {
 	}
 	return d.timetable
 }
+
+func (d *Date) Months() *TimeTable {
+	switch d.kind {
+	case MINUS:
+		var list []time.Time
+		for i := range d.timetable.list {
+			list = append(list, d.timetable.list[i].AddDate(0, -(d.n), 0))
+		}
+		d.timetable.list = list
+	case PLUS:
+		var list []time.Time
+		for i := range d.timetable.list {
+			list = append(list, d.timetable.list[i].AddDate(0, (d.n), 0))
+		}
+		d.timetable.list = list
+	}
+	return d.timetable
+}

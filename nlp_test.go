@@ -157,6 +157,10 @@ func TestParseTime(t *testing.T) {
 	assert.Equal("days_from_today", id)
 	assert.Equal(21, offset)
 
+	id, offset = parseTime("30 days before")
+	assert.Equal("days_from_today", id)
+	assert.Equal(-30, offset)
+
 	assert.True(true)
 }
 

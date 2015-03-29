@@ -50,6 +50,7 @@ func every(query string, tt *TimeTable) *TimeTable {
 			tt.Select(WEEK, item)
 		}
 	}
+
 	return tt
 }
 
@@ -87,6 +88,16 @@ func parseTime(query string) (string, int) {
 		if re1.Match([]byte(query)) {
 			number := re1.FindString(query)
 			return "days_from_today", stringToInt(number) * 7
+		}
+		return "", 0
+	}
+
+	re = regexp.MustCompile("(days before)")
+	if re.Match([]byte(query)) {
+		re1 := regexp.MustCompile("[0-9]+")
+		if re1.Match([]byte(query)) {
+			number := re1.FindString(query)
+			return "days_from_today", -(stringToInt(number))
 		}
 		return "", 0
 	}

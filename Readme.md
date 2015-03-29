@@ -1,6 +1,27 @@
 A Package that makes playing with date easy.
 
-#### Usage
+#### How to use
+```
+import(
+	t "github.com/sumitasok/timetable"
+)
+```
+
+```
+query := "starting today, till 2 weeks from now, every wednesday"
+list := timetable.Get(query)
+```
+
+other queries you might like
+
+```
+starting tomorrow, till 40 days from now, every thursday
+starting yesterday, till 4 weeks from now, 14 days before every wednesday
+starting 2 weeks from now, till 4 weeks from now, 21 days after every monday
+```
+
+
+#### Usage Old School
 
 Starting().Today().EndingOn(7 days from now).every("week friday").minus("30 days")
 
